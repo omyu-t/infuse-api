@@ -1,11 +1,13 @@
 use sea_orm::{Database, DbConn, EntityTrait, ActiveModelTrait, Set};
-// use entity::users;
+use std::env;
+
 use crate::entity::users;
 
 #[async_std::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
   // データベース接続
-  let db: DbConn = Database::connect("DATABASE_URL").await?;
+  let database_url = env::var("DATABASE_URL")?;
+  let db: DbConn = Database::connect(database_url).await?;
 
   // シードデータの挿入
   let user = users::ActiveModel {
